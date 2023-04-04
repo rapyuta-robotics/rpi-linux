@@ -1,0 +1,313 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+
+#include "bcm2711-rpi-cm4.dtsi"
+#include "bcm283x-rpi-usb-host.dtsi"
+
+/ {
+    model = "Oks AMR Controller v2.1";
+    compatible = "oks,amr-controller-v2.1", "brcm,bcm2711";
+
+    oks_board_version {
+        compatible = "oks,board-version";
+        version = "2.1";
+    };
+
+    leds {
+        led-act {
+            label = "led0";
+            linux,default-trigger = "heartbeat";
+            gpios = <&gpio 42 GPIO_ACTIVE_HIGH>;
+            delay-on-us = <500000>;  /* 500ms on */
+            delay-off-us = <1000000>; /* 1s off */
+            status = "okay";
+        };
+
+        led-pwr {
+            label = "PWR";
+            gpios = <&expgpio 2 GPIO_ACTIVE_LOW>;
+            default-state = "keep";
+            linux,default-trigger = "default-on";
+        };
+    };
+
+    pcie@7d500000 {
+        status = "disabled";
+    };
+
+    aliases {
+        serial0 = &uart1;
+        serial1 = &uart2;
+        serial2 = &uart3;
+        serial3 = &uart5;
+        i2c0 = &i2c0;
+        i2c1 = &i2c1;
+        i2c4 = &i2c4;
+        i2c5 = &i2c5;
+        i2c6 = &i2c6;
+    };
+};
+
+&gpio {
+    gpio-line-names = "UART2_TXD", "UART2_RXD", "I2C1_SDA", "I2C1_SCL",
+                      "UART3_TXD", "UART3_RXD", "SPI_CAN_INT0", "DO",
+                      "I2C4_SCL", "I2C4_SDA", "I2C5_SDA", "I2C5_SCL",
+                      "UART5_TXD", "UART5_RXD", "UART0_TXD", "UART0_RXD",
+                      "SPI_CAN_INT", "DI", "SPI1_CS0", "SPI1_MISO",
+                      "SPI1_MOSI", "SPI1_SCLK", "I2C6_SCL", "I2C6_SDA",
+                      "Not used", "Not used", "SPI_CAN_INT1", "DI";
+
+    spi1_pins: spi1_pins {
+        brcm,pins = <19 20 21>;
+        brcm,function = <3>; /* alt4 */
+    };
+
+    spi1_cs_pins: spi1_cs_pins {
+        brcm,pins = <18>;
+        brcm,function = <1>; /* output */
+    };
+
+    i2c0_pins: i2c0 {
+        brcm,pins = <44 45>;
+        brcm,function = <BCM2835_FSEL_ALT1>;
+        brcm,pull = <BCM2835_PUD_UP>;
+    };
+
+    i2c1_pins: i2c1 {
+        brcm,pins = <2 3>;
+        brcm,function = <BCM2835_FSEL_ALT0>;
+        brcm,pull = <BCM2835_PUD_UP>;
+    };
+
+    i2c4_pins: i2c4 {
+        brcm,pins = <8 9>;
+        brcm,function = <BCM2835_FSEL_ALT5>;
+        brcm,pull = <BCM2835_PUD_UP>;
+    };
+
+    i2c5_pins: i2c5 {
+        brcm,pins = <10 11>;
+        brcm,function = <BCM2835_FSEL_ALT5>;
+        brcm,pull = <BCM2835_PUD_UP>;
+    };
+
+    i2c6_pins: i2c6 {
+        brcm,pins = <22 23>;
+        brcm,function = <BCM2835_FSEL_ALT5>;
+        brcm,pull = <BCM2835_PUD_UP>;
+    };
+
+    uart0_pins: uart0_pins {
+        brcm,pins = <32 33>;
+        brcm,function = <BCM2835_FSEL_ALT3>;
+        brcm,pull = <0 2>;
+    };
+
+    uart1_pins: uart1_pins {
+        brcm,pins;
+        brcm,function;
+        brcm,pull;
+    };
+
+    uart2_pins: uart2_pins {
+        brcm,pins = <0 1>;
+        brcm,function = <BCM2835_FSEL_ALT4>;
+        brcm,pull = <0 2>;
+    };
+
+    uart3_pins: uart3_pins {
+        brcm,pins = <4 5>;
+        brcm,function = <BCM2835_FSEL_ALT4>;
+        brcm,pull = <0 2>;
+    };
+
+    uart4_pins: uart4_pins {
+        brcm,pins = <8 9>;
+        brcm,function = <BCM2835_FSEL_ALT4>;
+        brcm,pull = <0 2>;
+    };
+
+    uart5_pins: uart5_pins {
+        brcm,pins = <12 13>;
+        brcm,function = <BCM2835_FSEL_ALT4>;
+        brcm,pull = <0 2>;
+    };
+};
+
+&uart2 {
+    status = "okay";
+    label = "rfid";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart2_pins>;
+    linux,alias = "serial2";
+    debug = "true";
+};
+
+&uart3 {
+    status = "okay";
+    label = "robot_connect";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart3_pins>;
+    linux,alias = "serial3";
+};
+
+&uart5 {
+    status = "okay";
+    label = "bus_servo";
+    status = "okay";
+    label = "robot_connect";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart5_pins>;
+    linux,alias = "serial5";
+};
+
+&i2c0 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c0_pins>;
+    clock-frequency = <400000>;
+};
+
+&i2c1 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c1_pins>;
+    clock-frequency = <100000>;
+};
+
+&i2c4 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c4_pins>;
+    clock-frequency = <100000>;
+};
+
+&i2c5 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c5_pins>;
+    clock-frequency = <400000>;
+};
+
+&i2c6 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c6_pins>;
+    clock-frequency = <100000>;
+};
+
+&spi1 {
+    /* needed to avoid dtc warning */
+    #address-cells = <1>;
+    #size-cells = <0>;
+    pinctrl-names = "default";
+    pinctrl-0 = <&spi1_pins &spi1_cs_pins>;
+    cs-gpios = <&gpio 18 1>;
+    status = "okay";
+};
+
+&usb {
+    compatible = "brcm,bcm2835-usb";
+    dr_mode = "otg";
+    status = "okay";
+};
+
+&bt {
+    status = "disabled";
+};
+
+&hdmi0 {
+    status = "disabled";
+};
+
+&hdmi1 {
+    status = "disabled";
+};
+
+&genet {
+    status = "disabled";
+};
+
+&pixelvalve0 {
+    status = "disabled";
+};
+
+&pixelvalve1 {
+    status = "disabled";
+};
+
+&pixelvalve2 {
+    status = "disabled";
+};
+
+&pixelvalve4 {
+    status = "disabled";
+};
+
+&vc4 {
+    status = "disabled";
+};
+
+&vec {
+    status = "disabled";
+};
+
+&spi1 {
+    mcp251xfd: mcp251xfd@0 {
+        compatible = "microchip,mcp251xfd";
+        reg = <0>;
+        interrupt-parent = <&gpio>;
+        interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
+        //* Rpi4 Broadcom,BCM2711 SPI parent-clk: 500000000Hz max  SPI-clk based on the errarta reference in driver is 212500000 Hz 85.00% 500000000 Hz 
+        spi-max-frequency = <212500000>;
+        microchip,rx-int-gpios = <&gpio 26 GPIO_ACTIVE_LOW>;
+        clocks = <&clk_mcp251xfd_osc>;
+    };
+
+    clk_mcp251xfd_osc: mcp251xfd-osc {
+        #clock-cells = <0>;
+        compatible = "fixed-clock";
+        clock-frequency = <40000000>;
+    };
+};
+
+&i2c4 {
+    pca953x_2: pca953x@21 {
+        compatible = "nxp,pca9539";
+        reg = <0x21>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        label = "pca953x_2";
+        gpio-line-names = "PWR_WHEEL_EN_FR", "PWR_WHEEL_EN_FL", "PWR_WHEEL_EN_RR", "PWR_WHEEL_EN_RL", "RES1", "RES2", "RES3", "RES4", "LIFTER-SIG_EN_FR", "LIFTER-SIG_EN_FL", "LIFTER-SIG_EN_RR", "LIFTER-SIG_EN_RL", "RES5", "RES6", "RES7", "RES8";
+        gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
+    };
+};
+
+&i2c5 {
+    icm20948: icm20948@68 {
+        compatible = "invensense,icm20948";
+        reg = <0x68>;
+    };
+};
+
+&i2c6 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c6_pins>;
+    clock-frequency = <100000>;
+
+    pca953x_1: pca953x@20 {
+        compatible = "nxp,pca9539";
+        reg = <0x20>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        label = "pca953x_1";
+        gpio-line-names = "LINE-FOLLOWER_FRONT-EN", "LINE-FOLLOWER_REAR-EN", "LINE-FOLLOWER_LEFT-EN", "LINE-FOLLOWER_RIGHT-EN", "COLLISION-SENSOR_FRONT-EN", "COLLISION-SENSOR_REAR-EN", "COLLISION-SENSOR_LEFT-EN", "COLLISION-SENSOR_RIGHT-EN", "WEIGHT-SENSOR_FR-EN", "WEIGHT-SENSOR_FL-EN", "WEIGHT-SENSOR_RR-EN", "WEIGHT-SENSOR_RL-EN", "LINE-FOLLOWER_PWR-EN", "COLLISION-SENSOR_PWR-EN", "WEIGHT-SENSOR_PWR-EN", "RES_TP10";
+        gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
+    };
+
+    pcf85063a: rtc@51 {
+        compatible = "nxp,pcf85063a";
+        reg = <0x51>;
+    };
+};
