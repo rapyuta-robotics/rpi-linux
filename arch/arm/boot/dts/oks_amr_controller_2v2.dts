@@ -7,6 +7,10 @@
     model = "Oks AMR Controller v2.2";
     compatible = "oks,amr-controller-v2.2", "brcm,bcm2711";
 
+    chosen {
+        bootargs = "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0";
+    };
+
     oks_board_version {
         compatible = "oks,board-version";
         version = "2.2";

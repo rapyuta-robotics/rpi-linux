@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /dts-v1/;
-
-#include "bcm2711-rpi-cm4.dtsi"
+#include "bcm2711-rpi-cm4.dts"
 #include "bcm283x-rpi-usb-host.dtsi"
 
 / {
@@ -9,12 +8,30 @@
     compatible = "oks,amr-controller-v2.1", "brcm,bcm2711";
 
     chosen {
-        bootargs = "coherent_pool=1M 8250.nr_uarts=1";
+        bootargs = "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0";
     };
 
     oks_board_version {
         compatible = "oks,board-version";
         version = "2.1";
+    };
+    
+   clocks {
+   	clk_mcp251xfd_osc: mcp251xfd-osc {
+            #clock-cells = <0>;
+	    compatible = "fixed-clock";
+	    clock-frequency = <40000000>;
+	};
+   };
+   
+    reg_mcp251xfd_xceiver: reg_mcp251xfd_xceiver {
+        compatible = "regulator-fixed";
+        regulator-name = "mcp251xfd_xceiver";
+        regulator-min-microvolt = <3300000>;
+        regulator-max-microvolt = <3300000>;
+        gpio = <&gpio 6 GPIO_ACTIVE_HIGH>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&mcp251xfd_xceiver_pins>;
     };
 
     leds {
@@ -35,10 +52,6 @@
         };
     };
 
-    pcie@7d500000 {
-        status = "disabled";
-    };
-
     aliases {
         serial0 = &uart1;
         serial1 = &uart2;
@@ -49,17 +62,23 @@
         i2c4 = &i2c4;
         i2c5 = &i2c5;
         i2c6 = &i2c6;
-    };
+        spi1 = &spi1;
+        spi2 = &spi2;
+	spi3 = &spi3;
+	spi4 = &spi4;
+	spi5 = &spi5;
+	spi6 = &spi6;
+    };  
 };
 
 &gpio {
     gpio-line-names = "UART2_TXD", "UART2_RXD", "I2C1_SDA", "I2C1_SCL",
-                      "UART3_TXD", "UART3_RXD", "SPI_CAN_INT0", "DO",
+                      "UART3_TXD", "UART3_RXD", "MCP251xFD_INT0", "DO",
                       "I2C4_SCL", "I2C4_SDA", "I2C5_SDA", "I2C5_SCL",
                       "UART5_TXD", "UART5_RXD", "UART0_TXD", "UART0_RXD",
-                      "SPI_CAN_INT", "DI", "SPI1_CS0", "SPI1_MISO",
+                      "MCP251xFD_INT", "DI", "SPI1_CS0", "SPI1_MISO",
                       "SPI1_MOSI", "SPI1_SCLK", "I2C6_SCL", "I2C6_SDA",
-                      "Not used", "Not used", "SPI_CAN_INT1", "DI";
+                      "Not used", "Not used", "MCP251xFD_INT1", "DI";
 
     spi1_pins: spi1_pins {
         brcm,pins = <19 20 21>;
@@ -68,8 +87,8 @@
 
     spi1_cs_pins: spi1_cs_pins {
         brcm,pins = <18>;
-        brcm,function = <1>; /* output */
-    };
+        brcm,function = <3>; /* alt4 */
+    };  
 
     i2c0_pins: i2c0 {
         brcm,pins = <44 45>;
@@ -136,84 +155,92 @@
         brcm,function = <BCM2835_FSEL_ALT4>;
         brcm,pull = <0 2>;
     };
+    
+    mcp251xfd0_pins: mcp251xfd0_pins {
+        brcm,pins = <26>;
+        brcm,function = <BCM2835_FSEL_GPIO_IN>;
+    };
+    
+    mcp251xfd_xceiver_pins: mcp251xfd_xceiver_pins {
+        brcm,pins = <6>;
+        brcm,function = <BCM2835_FSEL_GPIO_OUT>;
+    };
+    
+    // TODO mux all the unused pins too..
 };
 
 &uart0 {
-    status = "okay";
     label = "CN1_ROBOT_CONN_RES";
     pinctrl-names = "default";
     pinctrl-0 = <&uart0_pins>;
     linux,alias = "serial0";
     debug = "true";
-};
-
-&uart1 {
-    status = "disabled";
+    status = "okay";    
 };
 
 &uart2 {
-    status = "okay";
     label = "CN8_RFID";
     pinctrl-names = "default";
     pinctrl-0 = <&uart2_pins>;
     linux,alias = "serial2";
-    debug = "true";
+    //debug = "true";
+    status = "okay";    
 };
 
 &uart3 {
-    status = "okay";
     label = "CN2_RES";
     pinctrl-names = "default";
     pinctrl-0 = <&uart3_pins>;
     linux,alias = "serial3";
-};
-
-&uart4 {
-    status = "disabled";
+    status = "okay";    
 };
 
 &uart5 {
-    status = "okay";
     label = "bus_servo";
     status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&uart5_pins>;
     linux,alias = "serial5";
+    status = "okay";    
 };
 
 &i2c0 {
-    status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&i2c0_pins>;
     clock-frequency = <400000>;
+    status = "okay";    
 };
 
 &i2c1 {
-    status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&i2c1_pins>;
     clock-frequency = <100000>;
+    status = "okay";    
 };
 
 &i2c4 {
-    status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&i2c4_pins>;
     clock-frequency = <100000>;
+    status = "okay";    
 };
 
 &i2c5 {
-    status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&i2c5_pins>;
     clock-frequency = <400000>;
+    status = "okay";    
 };
 
 &i2c6 {
-    status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&i2c6_pins>;
     clock-frequency = <100000>;
+    status = "okay";
+};
+
+&aux {
+    status = "okay";
 };
 
 &spi1 {
@@ -225,6 +252,23 @@
     cs-gpios = <&gpio 18 1>;
     status = "okay";
 };
+
+&spi1 {    
+    mcp251xfd: mcp251xfd@0 {
+        compatible = "microchip,mcp251xfd";
+        reg = <0>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&mcp251xfd0_pins>;
+        spi-max-frequency = <20000000>;
+        interrupt-parent = <&gpio>;
+        interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
+        microchip,rx-int-gpios = <&gpio 26 GPIO_ACTIVE_LOW>;
+        clocks = <&clk_mcp251xfd_osc>;
+        xceiver-supply = <&reg_mcp251xfd_xceiver>;
+        //vdd-supply = <&reg5v0>;
+    };
+};
+
 
 &usb {
     compatible = "brcm,bcm2835-usb";
@@ -272,24 +316,8 @@
     status = "disabled";
 };
 
-&spi1 {
-    status="okay";
-    mcp251xfd: mcp251xfd@0 {
-        compatible = "microchip,mcp251xfd";
-        reg = <0>;
-        interrupt-parent = <&gpio>;
-        interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-        //* Rpi4 Broadcom,BCM2711 SPI parent-clk: 500000000Hz max  SPI-clk based on the errarta reference in driver is 212500000 Hz 85.00% 500000000 Hz
-        spi-max-frequency = <212500000>;
-        microchip,rx-int-gpios = <&gpio 26 GPIO_ACTIVE_LOW>;
-        clocks = <&clk_mcp251xfd_osc>;
-    };
-
-    clk_mcp251xfd_osc: mcp251xfd-osc {
-        #clock-cells = <0>;
-        compatible = "fixed-clock";
-        clock-frequency = <40000000>;
-    };
+&pcie0 {
+    status = "disabled";
 };
 
 &i2c4 {
@@ -333,3 +361,4 @@
         reg = <0x51>;
     };
 };
+
