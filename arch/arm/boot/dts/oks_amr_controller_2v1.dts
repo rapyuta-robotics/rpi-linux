@@ -8,6 +8,10 @@
     model = "Oks AMR Controller v2.1";
     compatible = "oks,amr-controller-v2.1", "brcm,bcm2711";
 
+    chosen {
+        bootargs = "coherent_pool=1M 8250.nr_uarts=1";
+    };
+
     oks_board_version {
         compatible = "oks,board-version";
         version = "2.1";
@@ -134,9 +138,22 @@
     };
 };
 
+&uart0 {
+    status = "okay";
+    label = "CN1_ROBOT_CONN_RES";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart0_pins>;
+    linux,alias = "serial0";
+    debug = "true";
+};
+
+&uart1 {
+    status = "disabled";
+};
+
 &uart2 {
     status = "okay";
-    label = "rfid";
+    label = "CN8_RFID";
     pinctrl-names = "default";
     pinctrl-0 = <&uart2_pins>;
     linux,alias = "serial2";
@@ -145,17 +162,20 @@
 
 &uart3 {
     status = "okay";
-    label = "robot_connect";
+    label = "CN2_RES";
     pinctrl-names = "default";
     pinctrl-0 = <&uart3_pins>;
     linux,alias = "serial3";
+};
+
+&uart4 {
+    status = "disabled";
 };
 
 &uart5 {
     status = "okay";
     label = "bus_servo";
     status = "okay";
-    label = "robot_connect";
     pinctrl-names = "default";
     pinctrl-0 = <&uart5_pins>;
     linux,alias = "serial5";
@@ -253,12 +273,13 @@
 };
 
 &spi1 {
+    status="okay";
     mcp251xfd: mcp251xfd@0 {
         compatible = "microchip,mcp251xfd";
         reg = <0>;
         interrupt-parent = <&gpio>;
         interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-        //* Rpi4 Broadcom,BCM2711 SPI parent-clk: 500000000Hz max  SPI-clk based on the errarta reference in driver is 212500000 Hz 85.00% 500000000 Hz 
+        //* Rpi4 Broadcom,BCM2711 SPI parent-clk: 500000000Hz max  SPI-clk based on the errarta reference in driver is 212500000 Hz 85.00% 500000000 Hz
         spi-max-frequency = <212500000>;
         microchip,rx-int-gpios = <&gpio 26 GPIO_ACTIVE_LOW>;
         clocks = <&clk_mcp251xfd_osc>;
@@ -277,14 +298,15 @@
         reg = <0x21>;
         gpio-controller;
         #gpio-cells = <2>;
-        label = "pca953x_2";
-        gpio-line-names = "PWR_WHEEL_EN_FR", "PWR_WHEEL_EN_FL", "PWR_WHEEL_EN_RR", "PWR_WHEEL_EN_RL", "RES1", "RES2", "RES3", "RES4", "LIFTER-SIG_EN_FR", "LIFTER-SIG_EN_FL", "LIFTER-SIG_EN_RR", "LIFTER-SIG_EN_RL", "RES5", "RES6", "RES7", "RES8";
+        label = "peripheral_power_control_io_expander";
+        gpio-line-names = "pwr_wheel_en_fr", "pwr_wheel_en_fl", "pwr_wheel_en_rr", "pwr_wheel_en_rl", "res1", "res2", "res3", "res4", "lifter_sig_en_fr", "lifter_sig_en_fl", "lifter_sig_en_rr", "lifter_sig_en_rl", "res5", "res6", "res7", "res8";
         gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
     };
 };
 
 &i2c5 {
     icm20948: icm20948@68 {
+        status = "disabled";
         compatible = "invensense,icm20948";
         reg = <0x68>;
     };
@@ -301,8 +323,8 @@
         reg = <0x20>;
         gpio-controller;
         #gpio-cells = <2>;
-        label = "pca953x_1";
-        gpio-line-names = "LINE-FOLLOWER_FRONT-EN", "LINE-FOLLOWER_REAR-EN", "LINE-FOLLOWER_LEFT-EN", "LINE-FOLLOWER_RIGHT-EN", "COLLISION-SENSOR_FRONT-EN", "COLLISION-SENSOR_REAR-EN", "COLLISION-SENSOR_LEFT-EN", "COLLISION-SENSOR_RIGHT-EN", "WEIGHT-SENSOR_FR-EN", "WEIGHT-SENSOR_FL-EN", "WEIGHT-SENSOR_RR-EN", "WEIGHT-SENSOR_RL-EN", "LINE-FOLLOWER_PWR-EN", "COLLISION-SENSOR_PWR-EN", "WEIGHT-SENSOR_PWR-EN", "RES_TP10";
+        label = "peripheral_comms_control_io_expander";
+        gpio-line-names = "line_follower_front_en", "line_follower_rear_en", "line_follower_left_en", "line_follower_right_en", "collision_sensor_front_en", "collision_sensor_rear_en", "collision_sensor_left_en", "collision_sensor_right_en", "weight_sensor_fr_en", "weight_sensor_fl_en", "weight_sensor_rr_en", "weight_sensor_rl_en", "line_follower_pwr_en", "collision_sensor_pwr_en", "weight_sensor_pwr_en", "res_tp10";
         gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
     };
 

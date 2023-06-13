@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+
+#include "oks_amr_controller_2v1.dts"
+
+/ {
+    model = "Oks AMR Controller v2.2";
+    compatible = "oks,amr-controller-v2.2", "brcm,bcm2711";
+
+    oks_board_version {
+        compatible = "oks,board-version";
+        version = "2.2";
+    };
+};
+
+&i2c6 {
+    pca953x_1: pca953x@20 {
+            status = "disabled";
+    };
+};
+
+&i2c4 {
+    pca953x_2: pca953x@21 {
+            status = "disabled";
+    };
+
+    pca953x_3: pca953x@20 {
+            compatible = "nxp,pca9539";
+            reg = <0x20>;
+            gpio-controller;
+            #gpio-cells = <2>;
+            label = "peripheral_comms_control_io_expander";
+            gpio-line-names = "line_follower_front_en", "line_follower_rear_en", "line_follower_left_en", "line_follower_right_en", "collision_sensor_front_en", "collision_sensor_rear_en", "collision_sensor_left_en", "collision_sensor_right_en", "weight_sensor_fr_en", "weight_sensor_fl_en", "weight_sensor_rr_en", "weight_sensor_rl_en", "line_follower_pwr_en", "collision_sensor_pwr_en", "weight_sensor_pwr_en", "res_tp10";
+            gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
+    };
+
+    pca953x_4: pca953x@21 {
+        status = "okay";
+        compatible = "nxp,pca9539";
+        reg = <0x21>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        label = "peripheral_power_control_io_expander";
+        gpio-line-names = "pwr_wheel_en_fr", "pwr_wheel_en_fl", "pwr_wheel_en_rr", "pwr_wheel_en_rl", "res1", "res2", "res3", "res4", "lifter_sig_en_fr", "lifter_sig_en_fl", "lifter_sig_en_rr", "lifter_sig_en_rl", "lifter_pwr_en", "res6", "res7", "res8";
+        gpio-default-states = <0 0 0 0 0 0 0 0  1 1 1 1 1 0 0 0>;
+    };
+};

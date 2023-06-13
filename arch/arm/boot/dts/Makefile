@@ -20,7 +20,7 @@ dtb-$(CONFIG_ARCH_BCM2835) += \
 	bcm2711-rpi-cm4.dtb \
 	bcm2711-rpi-cm4s.dtb
 
-dtb-$(CONFIG_ARCH_BCM2835) += oks_amr_controller_v2_1.dtb
+dtb-$(CONFIG_ARCH_BCM2835) += oks_amr_controller_2v1.dtb
 
 dtb-$(CONFIG_ARCH_ALPINE) += \
 	alpine-db.dtb
