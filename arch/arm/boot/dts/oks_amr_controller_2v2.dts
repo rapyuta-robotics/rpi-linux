@@ -34,7 +34,7 @@
             gpio-controller;
             #gpio-cells = <2>;
             label = "peripheral_comms_control_io_expander";
-            gpio-line-names = "line_follower_front_en", "line_follower_rear_en", "line_follower_left_en", "line_follower_right_en", "collision_sensor_front_en", "collision_sensor_rear_en", "collision_sensor_left_en", "collision_sensor_right_en", "weight_sensor_fr_en", "weight_sensor_fl_en", "weight_sensor_rr_en", "weight_sensor_rl_en", "line_follower_pwr_en", "collision_sensor_pwr_en", "weight_sensor_pwr_en", "res_tp10";
+            gpio-line-names = "LINE_FOLLOWER_FRONT_EN", "LINE_FOLLOWER_REAR_EN", "LINE_FOLLOWER_LEFT_EN", "LINE_FOLLOWER_RIGHT_EN", "COLLISION_SENSOR_FRONT_EN", "COLLISION_SENSOR_REAR_EN", "COLLISION_SENSOR_LEFT_EN", "COLLISION_SENSOR_RIGHT_EN", "WEIGHT_SENSOR_FR_EN", "WEIGHT_SENSOR_FL_EN", "WEIGHT_SENSOR_RR_EN", "WEIGHT_SENSOR_RL_EN", "LINE_FOLLOWER_PWR_EN", "COLLISION_SENSOR_PWR_EN", "WEIGHT_SENSOR_PWR_EN", "RES_TP10";
             gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
     };
 
@@ -45,7 +45,7 @@
         gpio-controller;
         #gpio-cells = <2>;
         label = "peripheral_power_control_io_expander";
-        gpio-line-names = "pwr_wheel_en_fr", "pwr_wheel_en_fl", "pwr_wheel_en_rr", "pwr_wheel_en_rl", "res1", "res2", "res3", "res4", "lifter_sig_en_fr", "lifter_sig_en_fl", "lifter_sig_en_rr", "lifter_sig_en_rl", "lifter_pwr_en", "res6", "res7", "res8";
+        gpio-line-names = "PWR_WHEEL_EN_FR", "PWR_WHEEL_EN_FL", "PWR_WHEEL_EN_RR", "PWR_WHEEL_EN_RL", "RES1", "RES2", "RES3", "RES4", "LIFTER_SIG_EN_FR", "LIFTER_SIG_EN_FL", "LIFTER_SIG_EN_RR", "LIFTER_SIG_EN_RL", "LIFTER_PWR_EN", "RES6", "RES7", "RES8";
         gpio-default-states = <0 0 0 0 0 0 0 0  1 1 1 1 1 0 0 0>;
     };
 };

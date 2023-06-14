@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /dts-v1/;
-#include "bcm2711-rpi-cm4.dts"
+#include "bcm2711-rpi-cm4.dtsi"
 #include "bcm283x-rpi-usb-host.dtsi"
 
 / {
@@ -72,13 +72,34 @@
 };
 
 &gpio {
-    gpio-line-names = "UART2_TXD", "UART2_RXD", "I2C1_SDA", "I2C1_SCL",
-                      "UART3_TXD", "UART3_RXD", "MCP251xFD_INT0", "DO",
-                      "I2C4_SCL", "I2C4_SDA", "I2C5_SDA", "I2C5_SCL",
-                      "UART5_TXD", "UART5_RXD", "UART0_TXD", "UART0_RXD",
-                      "MCP251xFD_INT", "DI", "SPI1_CS0", "SPI1_MISO",
-                      "SPI1_MOSI", "SPI1_SCLK", "I2C6_SCL", "I2C6_SDA",
-                      "Not used", "Not used", "MCP251xFD_INT1", "DI";
+    gpio-line-names = "UART2_TXD",
+                  "UART2_RXD",
+                  "I2C1_SDA",
+                  "I2C1_SCL",
+                  "UART3_TXD",
+                  "UART3_RXD",
+                  "MCP251xFD_INT0",
+                  "CN2_6_DO",
+                  "I2C4_SCL",
+                  "I2C4_SDA",
+                  "I2C5_SDA",
+                  "I2C5_SCL",
+                  "UART5_TXD",
+                  "UART5_RXD",
+                  "UART0_TXD",
+                  "UART0_RXD",
+                  "MCP251xFD_INT",
+                  "CN2_5_DI",
+                  "SPI1_CS0",
+                  "SPI1_MISO",
+                  "SPI1_MOSI",
+                  "SPI1_SCLK",
+                  "I2C6_SCL",
+                  "I2C6_SDA",
+                  "TP39",
+                  "TP38",
+                  "MCP251xFD_INT1",
+                  "CN2_3_DI";
 
     spi1_pins: spi1_pins {
         brcm,pins = <19 20 21>;
@@ -90,7 +111,7 @@
         brcm,function = <3>; /* alt4 */
     };  
 
-    i2c0_pins: i2c0 {
+    i2c0_pins_44_45: i2c0 {
         brcm,pins = <44 45>;
         brcm,function = <BCM2835_FSEL_ALT1>;
         brcm,pull = <BCM2835_PUD_UP>;
@@ -165,8 +186,6 @@
         brcm,pins = <6>;
         brcm,function = <BCM2835_FSEL_GPIO_OUT>;
     };
-    
-    // TODO mux all the unused pins too..
 };
 
 &uart0 {
@@ -206,7 +225,7 @@
 
 &i2c0 {
     pinctrl-names = "default";
-    pinctrl-0 = <&i2c0_pins>;
+    pinctrl-0 = <&i2c0_pins_44_45>;
     clock-frequency = <400000>;
     status = "okay";    
 };
@@ -327,7 +346,7 @@
         gpio-controller;
         #gpio-cells = <2>;
         label = "peripheral_power_control_io_expander";
-        gpio-line-names = "pwr_wheel_en_fr", "pwr_wheel_en_fl", "pwr_wheel_en_rr", "pwr_wheel_en_rl", "res1", "res2", "res3", "res4", "lifter_sig_en_fr", "lifter_sig_en_fl", "lifter_sig_en_rr", "lifter_sig_en_rl", "res5", "res6", "res7", "res8";
+        gpio-line-names = "PWR_WHEEL_EN_FR", "PWR_WHEEL_EN_FL", "PWR_WHEEL_EN_RR", "PWR_WHEEL_EN_RL", "RES1", "RES2", "RES3", "RES4", "LIFTER_SIG_EN_FR", "LIFTER_SIG_EN_FL", "LIFTER_SIG_EN_RR", "LIFTER_SIG_EN_RL", "RES5", "RES6", "RES7", "RES8";
         gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
     };
 };
@@ -352,7 +371,7 @@
         gpio-controller;
         #gpio-cells = <2>;
         label = "peripheral_comms_control_io_expander";
-        gpio-line-names = "line_follower_front_en", "line_follower_rear_en", "line_follower_left_en", "line_follower_right_en", "collision_sensor_front_en", "collision_sensor_rear_en", "collision_sensor_left_en", "collision_sensor_right_en", "weight_sensor_fr_en", "weight_sensor_fl_en", "weight_sensor_rr_en", "weight_sensor_rl_en", "line_follower_pwr_en", "collision_sensor_pwr_en", "weight_sensor_pwr_en", "res_tp10";
+        gpio-line-names = "LINE_FOLLOWER_FRONT_EN", "LINE_FOLLOWER_REAR_EN", "LINE_FOLLOWER_LEFT_EN", "LINE_FOLLOWER_RIGHT_EN", "COLLISION_SENSOR_FRONT_EN", "COLLISION_SENSOR_REAR_EN", "COLLISION_SENSOR_LEFT_EN", "COLLISION_SENSOR_RIGHT_EN", "WEIGHT_SENSOR_FR_EN", "WEIGHT_SENSOR_FL_EN", "WEIGHT_SENSOR_RR_EN", "WEIGHT_SENSOR_RL_EN", "LINE_FOLLOWER_PWR_EN", "COLLISION_SENSOR_PWR_EN", "WEIGHT_SENSOR_PWR_EN", "RES_TP10";
         gpio-default-states = <0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0>;
     };
 
