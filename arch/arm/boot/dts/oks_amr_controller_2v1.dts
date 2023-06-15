@@ -8,7 +8,7 @@
     compatible = "oks,amr-controller-v2.1", "brcm,bcm2711";
 
     chosen {
-        bootargs = "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0";
+        bootargs = "console=tty1 coherent_pool=1M 8250.nr_uarts=1 snd_bcm2835.enable_headphones=0";
     };
 
     oks_board_version {
@@ -53,10 +53,10 @@
     };
 
     aliases {
-        serial0 = &uart1;
-        serial1 = &uart2;
-        serial2 = &uart3;
-        serial3 = &uart5;
+        serial0 = &uart0;
+        serial1 = &uart1;
+        serial2 = &uart2;
+        serial3 = &uart3;
         i2c0 = &i2c0;
         i2c1 = &i2c1;
         i2c4 = &i2c4;
@@ -202,7 +202,6 @@
     pinctrl-names = "default";
     pinctrl-0 = <&uart2_pins>;
     linux,alias = "serial2";
-    //debug = "true";
     status = "okay";    
 };
 
@@ -255,10 +254,6 @@
     pinctrl-names = "default";
     pinctrl-0 = <&i2c6_pins>;
     clock-frequency = <100000>;
-    status = "okay";
-};
-
-&aux {
     status = "okay";
 };
 

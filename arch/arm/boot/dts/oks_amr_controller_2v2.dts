@@ -8,7 +8,7 @@
     compatible = "oks,amr-controller-v2.2", "brcm,bcm2711";
 
     chosen {
-        bootargs = "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0";
+        bootargs = "console=tty1 coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0";
     };
 
     oks_board_version {
