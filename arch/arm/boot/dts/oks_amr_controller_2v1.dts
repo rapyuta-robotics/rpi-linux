@@ -5,7 +5,7 @@
 
 / {
     model = "Oks AMR Controller v2.1";
-    compatible = "oks,amr-controller-v2.1", "brcm,bcm2711";
+    compatible = "raspberrypi,4-compute-module", "oks,amr-controller-v2.1", "brcm,bcm2711";
 
     chosen {
         bootargs = "console=tty1 coherent_pool=1M 8250.nr_uarts=1 snd_bcm2835.enable_headphones=0";
@@ -15,7 +15,7 @@
         compatible = "oks,board-version";
         version = "2.1";
     };
-    
+
    clocks {
    	clk_mcp251xfd_osc: mcp251xfd-osc {
             #clock-cells = <0>;
@@ -23,7 +23,7 @@
 	    clock-frequency = <40000000>;
 	};
    };
-   
+
     reg_mcp251xfd_xceiver: reg_mcp251xfd_xceiver {
         compatible = "regulator-fixed";
         regulator-name = "mcp251xfd_xceiver";
@@ -68,7 +68,7 @@
 	spi4 = &spi4;
 	spi5 = &spi5;
 	spi6 = &spi6;
-    };  
+    };
 };
 
 &gpio {
@@ -109,7 +109,7 @@
     spi1_cs_pins: spi1_cs_pins {
         brcm,pins = <18>;
         brcm,function = <3>; /* alt4 */
-    };  
+    };
 
     i2c0_pins_44_45: i2c0 {
         brcm,pins = <44 45>;
@@ -142,8 +142,8 @@
     };
 
     uart0_pins: uart0_pins {
-        brcm,pins = <32 33>;
-        brcm,function = <BCM2835_FSEL_ALT3>;
+        brcm,pins = <14 15>;
+        brcm,function = <BCM2835_FSEL_ALT0>;
         brcm,pull = <0 2>;
     };
 
@@ -176,12 +176,12 @@
         brcm,function = <BCM2835_FSEL_ALT4>;
         brcm,pull = <0 2>;
     };
-    
+
     mcp251xfd0_pins: mcp251xfd0_pins {
         brcm,pins = <26>;
         brcm,function = <BCM2835_FSEL_GPIO_IN>;
     };
-    
+
     mcp251xfd_xceiver_pins: mcp251xfd_xceiver_pins {
         brcm,pins = <6>;
         brcm,function = <BCM2835_FSEL_GPIO_OUT>;
@@ -193,8 +193,7 @@
     pinctrl-names = "default";
     pinctrl-0 = <&uart0_pins>;
     linux,alias = "serial0";
-    debug = "true";
-    status = "okay";    
+    status = "okay";
 };
 
 &uart2 {
@@ -202,7 +201,7 @@
     pinctrl-names = "default";
     pinctrl-0 = <&uart2_pins>;
     linux,alias = "serial2";
-    status = "okay";    
+    status = "okay";
 };
 
 &uart3 {
@@ -210,7 +209,7 @@
     pinctrl-names = "default";
     pinctrl-0 = <&uart3_pins>;
     linux,alias = "serial3";
-    status = "okay";    
+    status = "okay";
 };
 
 &uart5 {
@@ -219,35 +218,35 @@
     pinctrl-names = "default";
     pinctrl-0 = <&uart5_pins>;
     linux,alias = "serial5";
-    status = "okay";    
+    status = "okay";
 };
 
 &i2c0 {
     pinctrl-names = "default";
     pinctrl-0 = <&i2c0_pins_44_45>;
     clock-frequency = <400000>;
-    status = "okay";    
+    status = "okay";
 };
 
 &i2c1 {
     pinctrl-names = "default";
     pinctrl-0 = <&i2c1_pins>;
     clock-frequency = <100000>;
-    status = "okay";    
+    status = "okay";
 };
 
 &i2c4 {
     pinctrl-names = "default";
     pinctrl-0 = <&i2c4_pins>;
     clock-frequency = <100000>;
-    status = "okay";    
+    status = "okay";
 };
 
 &i2c5 {
     pinctrl-names = "default";
     pinctrl-0 = <&i2c5_pins>;
     clock-frequency = <400000>;
-    status = "okay";    
+    status = "okay";
 };
 
 &i2c6 {
@@ -267,7 +266,7 @@
     status = "okay";
 };
 
-&spi1 {    
+&spi1 {
     mcp251xfd: mcp251xfd@0 {
         compatible = "microchip,mcp251xfd";
         reg = <0>;
