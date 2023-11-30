@@ -17,6 +17,11 @@
     };
 };
 
+&i2c1 {
+    clock-frequency = <400000>;
+    status = "okay";
+};
+
 &i2c6 {
     pca953x_1: pca953x@20 {
             status = "disabled";
